@@ -25,7 +25,7 @@ const flares = [
 const Map = ({ setSelectedFlare }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-
+    console.log(process.env.local.MAPBOX_API_KEY, "process .env")
   useEffect(() => {
     if (!map.current) {
       map.current = new mapboxgl.Map({

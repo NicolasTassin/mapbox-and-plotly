@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Plotly from "plotly.js-dist";
 const plots = require("../test.json");
 
@@ -6,14 +6,16 @@ const PlotComponent = ({ selectedFlare }) => {
   const [dataSelected, setDataSelected] = useState();
 
   const handleDataSelected = (e) => {
+    Plotly.purge("plot");
     setDataSelected(e.target.value);
+    createPlot();
   };
 
-  const createPlot = () => {
+  const createPlot = useCallback(() => {
     let plotX = [];
     let plotY = [];
 
-    const filteredFlareData = plots
+    plots
       .filter((plot) => plot.flare_stack_name === selectedFlare)
       .forEach((value, index) => {
         const parsedValue = Number(value[dataSelected]);
@@ -31,35 +33,37 @@ const PlotComponent = ({ selectedFlare }) => {
       mode: "lines",
       name: "Red",
       line: {
-        color: "rgb(219, 64, 82)",
-        width: 3,
+        color:
+          dataSelected === "rate_estimated"
+            ? "rgb(219, 64, 82)"
+            : dataSelected === "co2_rate"
+            ? "#168ACB"
+            : "#00AC63",
+        width: 1,
       },
     };
 
     let layout = {
-      width: 500,
+      width: 640,
       height: 500,
-      title: selectedFlare
+      title: selectedFlare,
     };
 
     Plotly.newPlot("plot", [data], layout);
-
-    console.log(plotX, "plotX");
-    console.log(plotY, "plotY");
-  };
+  }, [dataSelected, selectedFlare]);
 
   useEffect(() => {
     //createMapAndMarkers();
     createPlot();
     console.log("inside useEffect");
-  }, [createPlot, dataSelected, selectedFlare]);
+  }, [createPlot]);
 
   return (
-    <div className="container plot">
-      <div id="plot" className="container plot">
-        <div className="radio-container">
-          <p>Please select data to analyse</p>
-          <p>{dataSelected}</p>
+    <div id="plot" className="container plot">
+      <div className="radio-container">
+        <p>Please select data to analyse</p>
+        <p>{dataSelected}</p>
+        <div className="input-container">
           <input
             type="radio"
             id="co2_rate"
