@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
-mapboxgl.accessToken = ""//<API_KEY>
-  
+mapboxgl.accessToken = ""; //<API_KEY>
 
 const flares = [
   {
@@ -25,7 +24,7 @@ const flares = [
 const Map = ({ setSelectedFlare }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-    
+
   useEffect(() => {
     if (!map.current) {
       map.current = new mapboxgl.Map({
