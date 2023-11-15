@@ -1,12 +1,13 @@
-.App {
-  text-align: center;
+.main {
+  display: flex;
+  padding: 10% 5%;
 }
 
 .container {
-  height: 400px;
-  width: 40%;
-  margin: 10% 5%;
-  /* border: 1px solid black; */
+  height: 50vh;
+  width: 45%;
+  
+  
 }
 .plot {
   display: flex;
@@ -15,9 +16,6 @@
   align-items: center;
 }
 
-.main {
-  display: flex;
-}
 .marker {
   cursor: pointer;
 }
@@ -36,10 +34,6 @@
 .input-container {
   display: flex;
   margin-top: 3%;
-}
-
-.error {
-  color: red;
 }
 
 input[type="radio"] {
