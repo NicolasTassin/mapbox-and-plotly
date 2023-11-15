@@ -41,6 +41,7 @@ const Map = ({ setSelectedFlare }) => {
 
         const marker = new mapboxgl.Marker()
           .setLngLat([parsedLongitude, parsedLatitude])
+          .setPopup(new mapboxgl.Popup({className:'popup'}).setHTML(`<h2>${flare_stack_name}</h2>`))
           .addTo(map.current);
 
         const markerClickHandler = () => {

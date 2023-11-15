@@ -61,5 +61,15 @@ input[type="radio"]:checked + label {
   border-color: #168acb;
 }
 
+.popup {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100px;
+  
+  color: #168acb;
+  /* background-color: aquamarine; */
+}
+
 /* #168ACB
   #00AC63 */
