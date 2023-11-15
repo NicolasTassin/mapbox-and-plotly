@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import "./App.css";
+import Map from './components/Map'
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Plotly from "plotly.js-dist"
 const plots = require("./test.json");
@@ -7,58 +8,42 @@ const plots = require("./test.json");
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia3Jpc3RpbmFtYXJ0aW5rIiwiYSI6ImNsb3U3MTVmazBobm4yanFkOW1jY2R2c24ifQ.KxLIQK6WRueHi9oTzI54ig";
 
-const flares = [
-  {
-    flare_stack_name: "flare4",
-    latitude: "35.44069",
-    longitude: "-118.983",
-  },
-  {
-    flare_stack_name: "flare2",
-    latitude: "35.4543",
-    longitude: "-118.991",
-  },
-  {
-    flare_stack_name: "flare1",
-    latitude: "35.44255",
-    longitude: "-119.006",
-  },
-];
+
 
 function App() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(Number(flares[0].longitude));
-  const [lat, setLat] = useState(Number(flares[0].latitude));
+  // const [lng, setLng] = useState(Number(flares[0].longitude));
+  // const [lat, setLat] = useState(Number(flares[0].latitude));
   const [zoom, setZoom] = useState(12);
   const [selectedFlare, setSelectedFlare] = useState(
     "Click on the map to select a flare to analyse"
   );
   const [dataSelected, setDataSelected] = useState();
 
-  
-  const createMapAndMarkers = useCallback(() => {
-    if (map.current) return; 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
-      center: [lng, lat],
-      zoom: zoom,
-    });
+  console.log(selectedFlare, "selected flare in App")
+  // const createMapAndMarkers = useCallback(() => {
+  //   if (map.current) return; 
+  //   map.current = new mapboxgl.Map({
+  //     container: mapContainer.current,
+  //     style: "mapbox://styles/mapbox/streets-v12",
+  //     center: [lng, lat],
+  //     zoom: zoom,
+  //   });
 
-    flares.forEach((flare) => {
-      const latitude = parseFloat(flare.latitude);
-      const longitude = parseFloat(flare.longitude);
+  //   flares.forEach((flare) => {
+  //     const latitude = parseFloat(flare.latitude);
+  //     const longitude = parseFloat(flare.longitude);
 
-      const marker = new mapboxgl.Marker()
-        .setLngLat([longitude, latitude])
-        .addTo(map.current);
+  //     const marker = new mapboxgl.Marker()
+  //       .setLngLat([longitude, latitude])
+  //       .addTo(map.current);
 
-      marker.getElement().addEventListener("click", () => {
-        setSelectedFlare(flare.flare_stack_name);
-      });
-    });
-  }, [lng, lat, zoom]);
+  //     marker.getElement().addEventListener("click", () => {
+  //       setSelectedFlare(flare.flare_stack_name);
+  //     });
+  //   });
+  // }, [lng, lat, zoom]);
   
     
     const createPlot = () => {
@@ -103,16 +88,16 @@ function App() {
     
 
   useEffect(() => {
-    createMapAndMarkers();
+    //createMapAndMarkers();
     createPlot()
     console.log("inside useEffect")
     
     
-  }, [createMapAndMarkers, createPlot, dataSelected, selectedFlare]);
+  }, [ createPlot, dataSelected, selectedFlare]);
 
   return (
     <div className="main">
-      <div ref={mapContainer} className="container" />
+      <Map setSelectedFlare={setSelectedFlare}/>
       <div id='plot' className="container plot">
         {/* <Plot
           data={[
