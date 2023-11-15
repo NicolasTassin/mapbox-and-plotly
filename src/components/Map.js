@@ -35,17 +35,19 @@ const Map = ({ setSelectedFlare }) => {
       });
 
       flares.forEach((flare) => {
-        const latitude = parseFloat(flare.latitude);
-        const longitude = parseFloat(flare.longitude);
+        const { latitude, longitude, flare_stack_name } = flare;
+        const parsedLatitude = parseFloat(latitude);
+        const parsedLongitude = parseFloat(longitude);
 
         const marker = new mapboxgl.Marker()
-          .setLngLat([longitude, latitude])
+          .setLngLat([parsedLongitude, parsedLatitude])
           .addTo(map.current);
 
-        marker.getElement().addEventListener("click", () => {
-          setSelectedFlare(flare.flare_stack_name);
-          console.log(flare.flare_stack_name);
-        });
+        const markerClickHandler = () => {
+          setSelectedFlare(flare_stack_name);
+        };
+
+        marker.getElement().addEventListener("click", markerClickHandler);
       });
     }
   }, [setSelectedFlare]);

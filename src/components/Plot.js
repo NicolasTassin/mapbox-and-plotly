@@ -6,19 +6,20 @@ const PlotComponent = ({ selectedFlare }) => {
   const [dataSelected, setDataSelected] = useState();
 
   const handleDataSelected = (e) => {
+    const selectedValue = e.target.value;
     Plotly.purge("plot");
-    setDataSelected(e.target.value);
-    createPlot();
+    setDataSelected(selectedValue);
+    createPlot(selectedValue);
   };
 
-  const createPlot = useCallback(() => {
+  const createPlot = useCallback((selectedValue) => {
     let plotX = [];
     let plotY = [];
 
     plots
       .filter((plot) => plot.flare_stack_name === selectedFlare)
-      .forEach((value, index) => {
-        const parsedValue = Number(value[dataSelected]);
+      .forEach((value) => {
+        const parsedValue = Number(value[selectedValue]);
         const parsedTime = Number(value.time);
         if (!isNaN(parsedValue)) {
           plotY.push(parsedValue);
@@ -34,9 +35,9 @@ const PlotComponent = ({ selectedFlare }) => {
       name: "Red",
       line: {
         color:
-          dataSelected === "rate_estimated"
+          selectedValue === "rate_estimated"
             ? "rgb(219, 64, 82)"
-            : dataSelected === "co2_rate"
+            : selectedValue === "co2_rate"
             ? "#168ACB"
             : "#00AC63",
         width: 1,
@@ -50,13 +51,11 @@ const PlotComponent = ({ selectedFlare }) => {
     };
 
     Plotly.newPlot("plot", [data], layout);
-  }, [dataSelected, selectedFlare]);
+  }, [selectedFlare]);
 
   useEffect(() => {
-    //createMapAndMarkers();
-    createPlot();
-    console.log("inside useEffect");
-  }, [createPlot]);
+    createPlot(dataSelected);
+  }, [createPlot, dataSelected]);
 
   return (
     <div id="plot" className="container plot">
@@ -69,7 +68,7 @@ const PlotComponent = ({ selectedFlare }) => {
             id="co2_rate"
             name="data"
             value="co2_rate"
-            onClick={handleDataSelected}
+            onChange={handleDataSelected}
           />
           <label htmlFor="co2_rate">CO2 Rate</label>
           <input
@@ -77,7 +76,7 @@ const PlotComponent = ({ selectedFlare }) => {
             id="volume_tracked"
             name="data"
             value="volume_tracked"
-            onClick={handleDataSelected}
+            onChange={handleDataSelected}
           />
           <label htmlFor="volume_tracked">Volume tracked</label>
           <input
@@ -85,7 +84,7 @@ const PlotComponent = ({ selectedFlare }) => {
             id="rate_estimated"
             name="data"
             value="rate_estimated"
-            onClick={handleDataSelected}
+            onChange={handleDataSelected}
           />
           <label htmlFor="rate_estimated">Rate estimated</label>
         </div>
