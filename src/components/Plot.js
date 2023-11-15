@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Plotly from "plotly.js-dist";
-const plots = require("../test.json");
+const plots = require("../data/test.json");
 
 const PlotComponent = ({ selectedFlare }) => {
   const [dataSelected, setDataSelected] = useState();
@@ -61,7 +61,6 @@ const PlotComponent = ({ selectedFlare }) => {
     <div id="plot" className="container plot">
       <div className="radio-container">
         <p>Please select data to analyse</p>
-        <p>{dataSelected}</p>
         <div className="input-container">
           <input
             type="radio"

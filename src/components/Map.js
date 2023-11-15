@@ -1,25 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import { flares } from "../data/flares";
+
 
 mapboxgl.accessToken = ""; //<API_KEY>
-
-const flares = [
-  {
-    flare_stack_name: "flare4",
-    latitude: "35.44069",
-    longitude: "-118.983",
-  },
-  {
-    flare_stack_name: "flare2",
-    latitude: "35.4543",
-    longitude: "-118.991",
-  },
-  {
-    flare_stack_name: "flare1",
-    latitude: "35.44255",
-    longitude: "-119.006",
-  },
-];
 
 const Map = ({ setSelectedFlare }) => {
   const mapContainer = useRef(null);
