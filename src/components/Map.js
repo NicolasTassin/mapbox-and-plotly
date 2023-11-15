@@ -29,7 +29,7 @@ const Map = ({ setSelectedFlare }) => {
     if (!map.current) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        style: "mapbox://styles/mapbox/streets-v12",
+        style: "mapbox://styles/mapbox/outdoors-v12",
         center: [flares[0].longitude, flares[0].latitude],
         zoom: 12,
       });
